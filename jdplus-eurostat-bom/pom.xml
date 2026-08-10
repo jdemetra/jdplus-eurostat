@@ -6,7 +6,7 @@
     <parent>
         <groupId>eu.europa.ec.joinup.sat</groupId>
         <artifactId>jdplus-eurostat</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jdplus-eurostat-bom</artifactId>
@@ -21,17 +21,17 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>jdplus-eurostat-base</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>jdplus-eurostat-cli</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>jdplus-eurostat-desktop</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
