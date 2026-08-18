@@ -18,5 +18,6 @@
 
     <modules>
         <module>jdplus-eurostat-base-parent</module>
+        <module>jdplus-jvsqr-base-parent</module>
     </modules>
 </project>

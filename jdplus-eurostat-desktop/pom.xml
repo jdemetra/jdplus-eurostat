@@ -84,5 +84,6 @@
 
     <modules>
         <module>jdplus-eurostat-desktop-plugin</module>
+        <module>jdplus-jvsqr-desktop-plugin</module>
     </modules>
 </project>

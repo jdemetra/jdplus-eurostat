@@ -57,6 +57,7 @@
         <!-- dependencies -->
         <jdplus-main.version>3.8.0</jdplus-main.version>
         <jdplus-main-netbeans.version>RELEASE300</jdplus-main-netbeans.version>
+        <java-io-util.version>0.0.39</java-io-util.version>
 
         <!-- plugins -->
         <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
