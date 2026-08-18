@@ -17,6 +17,5 @@
     <url>${project.parent.url}</url>
 
     <modules>
-        <module>jdplus-eurostat-cli-plugin</module>
     </modules>
 </project>

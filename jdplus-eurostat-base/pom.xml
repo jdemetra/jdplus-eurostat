@@ -17,7 +17,6 @@
     <url>${project.parent.url}</url>
 
     <modules>
-        <module>jdplus-eurostat-base-parent</module>
         <module>jdplus-jvsqr-base-parent</module>
     </modules>
 </project>
