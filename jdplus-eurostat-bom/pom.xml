@@ -60,6 +60,78 @@
     </build>
 
     <profiles>
+        <!-- Release binaries on GitHub -->
+        <!-- Note that all plugins are run on 'install' phase -->
+        <profile>
+            <id>full-release</id>
+            <properties>
+                <desktop.basedir>${project.build.directory}/../../jdplus-eurostat-desktop</desktop.basedir>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- Extract changelog -->
+                    <plugin>
+                        <groupId>com.github.nbbrd.heylogs</groupId>
+                        <artifactId>heylogs-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>extract-changelog</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>extract</goal>
+                                </goals>
+                                <configuration>
+                                    <inputFile>${project.parent.basedir}/CHANGELOG.md</inputFile>
+                                    <outputFile>${project.build.directory}/CHANGELOG.md</outputFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Release assets -->
+                    <plugin>
+                        <groupId>org.jreleaser</groupId>
+                        <artifactId>jreleaser-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>release-assets</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>full-release</goal>
+                                </goals>
+                                <configuration>
+                                    <jreleaser>
+                                        <release>
+                                            <github>
+                                                <skipTag>true</skipTag>
+                                                <changelog>
+                                                    <external>${project.build.directory}/CHANGELOG.md</external>
+                                                </changelog>
+                                            </github>
+                                        </release>
+                                        <signing>
+                                            <active>ALWAYS</active>
+                                            <!-- Fix default value -->
+                                            <armored>true</armored>
+                                        </signing>
+                                        <files>
+                                            <artifacts>
+                                                <artifact>
+                                                    <path>
+                                                        ${desktop.basedir}/jdplus-jvsqr-desktop-plugin/target/jdplus-jvsqr-desktop-plugin-${project.version}.nbm
+                                                    </path>
+                                                </artifact>
+                                            </artifacts>
+                                        </files>
+                                    </jreleaser>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>check-compatibility</id>
             <build>
