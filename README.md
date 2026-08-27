@@ -18,26 +18,25 @@ mvn clean install
 
 ```
 jdplus-eurostat/
-├── pom.xml                                 # Root POM (parent of all modules)
+├── pom.xml                                     # Root POM (parent of all modules)
 ├── jdplus-eurostat-base/
-│   ├── pom.xml                             # Base aggregator
-│   └── jdplus-eurostat-base-parent/
-│       ├── pom.xml                         # Base parent POM
-│       └── jdplus-eurostat-base-api/
-│           ├── pom.xml                     # Base API module
-│           └── src/
-│               ├── main/java/
-│               └── test/java/
+│   ├── pom.xml                                 # Base aggregator
+│   └── jdplus-jvsqr-base-parent/
+│       ├── pom.xml                             # Base parent POM
+│       ├── jdplus-jvsqr-base-api/
+│       │   ├── pom.xml                         # Base API module
+│       │   └── src/main/
+│       └── jdplus-jvsqr-base-core/
+│           ├── pom.xml                         # Base core module
+│           └── src/main/
 ├── jdplus-eurostat-bom/
-│   └── pom.xml                             # Bill of Materials
+│   └── pom.xml                                 # Bill of Materials
 ├── jdplus-eurostat-cli/
-│   ├── pom.xml                             # CLI aggregator
-│   └── jdplus-eurostat-cli-plugin/
-│       └── pom.xml                         # CLI plugin module
+│   └── pom.xml                                 # CLI aggregator
 └── jdplus-eurostat-desktop/
-    ├── pom.xml                             # Desktop aggregator
-    └── jdplus-eurostat-desktop-plugin/
-        ├── pom.xml                         # Desktop plugin module
+    ├── pom.xml                                 # Desktop aggregator
+    └── jdplus-jvsqr-desktop-plugin/
+        ├── pom.xml                             # Desktop plugin module
         └── src/
             ├── main/
             │   ├── java/
@@ -46,6 +45,10 @@ jdplus-eurostat/
             │   └── resources/
             └── test/java/
 ```
+
+> [!NOTE]
+> `jvsqr` is the current topic used by the concrete modules. Following the naming
+> convention below, this segment varies depending on the extension being developed.
 
 ### Naming
 

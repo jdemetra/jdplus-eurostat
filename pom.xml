@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.europa.ec.joinup.sat</groupId>
     <artifactId>jdplus-eurostat</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
     <description>JDemetra+ v3 - Eurostat extensions</description>
     <url>https://github.com/jdemetra/jdplus-eurostat</url>
     <inceptionYear>2026</inceptionYear>
-
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL)</name>
@@ -30,15 +27,23 @@
         </developer>
     </developers>
 
+    <modules>
+        <module>jdplus-eurostat-base</module>
+        <module>jdplus-eurostat-cli</module>
+        <module>jdplus-eurostat-desktop</module>
+        <module>jdplus-eurostat-bom</module>
+    </modules>
+
     <scm>
         <connection>scm:git:https://github.com/jdemetra/jdplus-eurostat.git</connection>
         <developerConnection>scm:git:https://github.com/jdemetra/jdplus-eurostat.git</developerConnection>
         <url>https://github.com/jdemetra/jdplus-eurostat</url>
     </scm>
+
     <properties>
         <!-- Java config -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputTimestamp>2026-07-02T07:30:20Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-08-27T13:21:34Z</project.build.outputTimestamp>
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.release>21</maven.compiler.release>
@@ -48,24 +53,28 @@
         <lombok.version>1.18.46</lombok.version>
         <java-service.version>2.1.0</java-service.version>
         <java-design.version>1.10.2</java-design.version>
-        <jspecify.version>1.0.0</jspecify.version>
+        <jspecify.version>1.0.1</jspecify.version>
 
         <!-- test frameworks -->
-        <junit.version>6.1.1</junit.version>
+        <junit.version>6.1.3</junit.version>
         <assertj-core.version>3.27.7</assertj-core.version>
 
         <!-- dependencies -->
         <jdplus-main.version>3.8.0</jdplus-main.version>
         <jdplus-main-netbeans.version>RELEASE300</jdplus-main-netbeans.version>
+        <java-io-util.version>0.0.39</java-io-util.version>
 
         <!-- plugins -->
         <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
         <compatibility-maven-plugin.version>1.2.0</compatibility-maven-plugin.version>
         <extra-enforcer-rules.version>1.12.0</extra-enforcer-rules.version>
-        <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.8.0</flatten-maven-plugin.version>
         <forbiddenapis.version>3.10</forbiddenapis.version>
         <gitflow-maven-plugin.version>1.21.0</gitflow-maven-plugin.version>
         <heylogs.version>0.19.1</heylogs.version>
+        <nbbrd-enforcer-rules>1.3.0</nbbrd-enforcer-rules>
+        <tidy-maven-plugin.version>1.4.0</tidy-maven-plugin.version>
+        <spotless-maven-plugin.version>3.10.0</spotless-maven-plugin.version>
         <jreleaser-maven-plugin.version>1.25.0</jreleaser-maven-plugin.version>
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
@@ -73,13 +82,13 @@
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+        <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
         <maven-site-plugin.version>3.22.0</maven-site-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
-        <modernizer-maven-plugin.version>3.3.0</modernizer-maven-plugin.version>
+        <modernizer-maven-plugin.version>3.5.0</modernizer-maven-plugin.version>
         <nbm-maven-plugin.version>14.5</nbm-maven-plugin.version>
         <pomchecker-enforcer-rules.version>1.15.0</pomchecker-enforcer-rules.version>
         <sign-maven-plugin.version>1.1.0</sign-maven-plugin.version>
@@ -126,6 +135,34 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <!-- Custom repositories: order matters! -->
+    <!-- Maven Central is enforced at top to prevent dependabot to use snapshots as releases -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots/>
+        </repository>
+        <repository>
+            <id>old-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots/>
+        </repository>
+    </repositories>
 
     <build>
         <pluginManagement>
@@ -181,6 +218,28 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${maven-enforcer-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kordamp.maven</groupId>
+                            <artifactId>pomchecker-enforcer-rules</artifactId>
+                            <version>${pomchecker-enforcer-rules.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>extra-enforcer-rules</artifactId>
+                            <version>${extra-enforcer-rules.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.github.nbbrd.heylogs</groupId>
+                            <artifactId>heylogs-enforcer-rules</artifactId>
+                            <version>${heylogs.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.github.nbbrd.nbbrd-maven-tools</groupId>
+                            <artifactId>nbbrd-enforcer-rules</artifactId>
+                            <version>${nbbrd-enforcer-rules}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.gaul</groupId>
@@ -221,6 +280,16 @@
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
                     <version>${central-publishing-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>tidy-maven-plugin</artifactId>
+                    <version>${tidy-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>${spotless-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jreleaser</groupId>
@@ -287,26 +356,36 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>extra-enforcer-rules</artifactId>
-                        <version>${extra-enforcer-rules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.kordamp.maven</groupId>
-                        <artifactId>pomchecker-enforcer-rules</artifactId>
-                        <version>${pomchecker-enforcer-rules.version}</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
+                        <id>enforce-root-on-validate</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <rules>
+                                <!-- Required project files -->
+                                <requireFilesExist>
+                                    <files>
+                                        <file>${project.basedir}/.gitignore</file>
+                                        <file>${project.basedir}/CHANGELOG.md</file>
+                                        <file>${project.basedir}/LICENSE</file>
+                                        <file>${project.basedir}/lombok.config</file>
+                                        <file>${project.basedir}/README.md</file>
+                                    </files>
+                                </requireFilesExist>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce-on-validate</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
-                                <!-- 2.1 Built-In Rules -->
+                                <!-- Built-In Rules -->
                                 <banDuplicatePomDependencyVersions/>
                                 <dependencyConvergence/>
                                 <reactorModuleConvergence/>
@@ -318,51 +397,51 @@
                                     <allowSnapshotRepositories>true</allowSnapshotRepositories>
                                 </requireNoRepositories>
                                 <requirePluginVersions/>
+                                <requireReleaseDeps>
+                                    <onlyWhenRelease>true</onlyWhenRelease>
+                                </requireReleaseDeps>
+                                <requireUpperBoundDeps/>
                                 <requireProperty>
                                     <property>project.artifactId</property>
                                     <message>Project artifactId must follow JD3 pattern</message>
                                     <regex>^(jdplus)-(\w+)(?:-(base|cli|desktop|bom)(?:-(\w+))?)?$</regex>
                                 </requireProperty>
-                                <requireReleaseDeps>
-                                    <onlyWhenRelease>true</onlyWhenRelease>
-                                </requireReleaseDeps>
-                                <requireUpperBoundDeps/>
-                                <!-- 2.2 extra-enforcer-rules -->
+                                <!-- pomchecker-enforcer-rules -->
+                                <checkMavenCentral>
+                                    <release>false</release>
+                                    <strict>false</strict>
+                                </checkMavenCentral>
+                                <!-- heylogs-enforcer-rules -->
+                                <checkChangelog/>
+                                <formatChangelog/>
+                                <!-- nbbrd-enforcer-rules -->
+                                <requireArtifactIdPattern>
+                                    <packagings>nbm</packagings>
+                                    <pattern>^.+-desktop-(plugin|branding)$</pattern>
+                                    <message>nbm artifacts must follow the "*-desktop-plugin" naming convention</message>
+                                </requireArtifactIdPattern>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce-on-verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!-- extra-enforcer-rules -->
                                 <banCircularDependencies/>
-                                <banDuplicateClasses/>
+                                <banDuplicateClasses>
+                                    <ignoredScopes>test</ignoredScopes>
+                                </banDuplicateClasses>
                                 <enforceBytecodeVersion>
                                     <maxJdkVersion>${maven.compiler.release}</maxJdkVersion>
                                     <ignoredScopes>
                                         <ignoreScope>test</ignoreScope>
                                     </ignoredScopes>
                                 </enforceBytecodeVersion>
-                                <!-- 2.3 pomchecker-enforcer-rules -->
-                                <checkMavenCentral
-                                        implementation="org.kordamp.maven.enforcer.checker.CheckMavenCentral">
-                                    <release>false</release>
-                                    <strict>false</strict>
-                                </checkMavenCentral>
-                            </rules>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>check-project</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <rules>
-                                <!-- 2.4 required project files -->
-                                <requireFilesExist>
-                                    <files>
-                                        <file>${project.basedir}/.gitignore</file>
-                                        <file>${project.basedir}/CHANGELOG.md</file>
-                                        <file>${project.basedir}/LICENSE</file>
-                                        <file>${project.basedir}/lombok.config</file>
-                                        <file>${project.basedir}/README.md</file>
-                                    </files>
-                                </requireFilesExist>
                             </rules>
                         </configuration>
                     </execution>
@@ -413,14 +492,37 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.github.nbbrd.heylogs</groupId>
-                <artifactId>heylogs-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tidy-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <inherited>false</inherited>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <configuration>
+                    <java>
+                        <googleJavaFormat>
+                            <style>AOSP</style>
+                        </googleJavaFormat>
+                        <importOrder/>
+                        <removeUnusedImports />
+                        <formatAnnotations />
+                    </java>
+                    <ratchetFrom>origin/develop</ratchetFrom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -460,6 +562,24 @@
                             <sourcepath>${project.build.directory}/no-source</sourcepath>
                             <quiet>true</quiet>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-javadoc</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <phase>verify</phase>
+                                <configuration>
+                                    <rules>
+                                        <requireJavadocJar/>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.simplify4u.plugins</groupId>
@@ -524,42 +644,8 @@
                 <forbiddenapis.skip>true</forbiddenapis.skip>
                 <jacoco.skip>true</jacoco.skip>
                 <heylogs.skip>true</heylogs.skip>
+                <tidy.skip>true</tidy.skip>
             </properties>
         </profile>
     </profiles>
-
-    <!-- Custom repositories: order matters! -->
-    <!-- Maven Central is enforced at top to prevent dependabot to use snapshots as releases -->
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>central-snapshots</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots/>
-        </repository>
-        <repository>
-            <id>old-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots/>
-        </repository>
-    </repositories>
-
-    <modules>
-        <module>jdplus-eurostat-base</module>
-        <module>jdplus-eurostat-cli</module>
-        <module>jdplus-eurostat-desktop</module>
-        <module>jdplus-eurostat-bom</module>
-    </modules>
 </project>
