@@ -7,4 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+Initial release.
+
+### Added
+
+- Add jvsqr topic
+
 [Unreleased]: https://github.com/jdemetra/jdplus-eurostat
