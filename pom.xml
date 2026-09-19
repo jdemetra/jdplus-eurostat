@@ -60,7 +60,7 @@
         <assertj-core.version>3.27.7</assertj-core.version>
 
         <!-- dependencies -->
-        <jdplus-main.version>3.8.0</jdplus-main.version>
+        <jdplus-main.version>3.9.0</jdplus-main.version>
         <jdplus-main-netbeans.version>RELEASE300</jdplus-main-netbeans.version>
         <java-io-util.version>0.0.39</java-io-util.version>
 
